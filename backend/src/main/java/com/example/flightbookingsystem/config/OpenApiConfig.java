@@ -1,4 +1,4 @@
-package com.example.springreactapp.config;
+package com.example.flightbookingsystem.config;
 
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;

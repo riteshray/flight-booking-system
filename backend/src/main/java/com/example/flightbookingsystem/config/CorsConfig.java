@@ -1,4 +1,4 @@
-package com.example.springreactapp.config;
+package com.example.flightbookingsystem.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
