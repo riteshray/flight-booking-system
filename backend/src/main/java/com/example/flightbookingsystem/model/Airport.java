@@ -38,8 +38,4 @@ public class Airport {
 		this.city = city;
 		this.country = country;
 	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
 }

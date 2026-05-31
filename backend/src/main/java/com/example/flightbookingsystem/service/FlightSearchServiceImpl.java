@@ -41,15 +41,12 @@ public class FlightSearchServiceImpl implements FlightSearchService {
     }
     
     @Override
-    public FlightResponse getFlightById(Long flightId) {
-        Flight flight = flightRepository.findById(flightId)
-            .orElseThrow(() -> new ResourceNotFoundException("Flight not found with id: " + flightId));
+    public FlightResponse getFlightByFlightNumber(String flightNumber) {
+        Flight flight = flightRepository.findByFlightNumber(flightNumber)
+            .orElseThrow(() -> new ResourceNotFoundException(String.format("Flight not found with number: %s", flightNumber)));
         return mapToFlightResponse(flight);
     }
-    
-    /**
-     * Maps Flight entity to FlightResponse DTO
-     */
+
     private FlightResponse mapToFlightResponse(Flight flight) {
         return FlightResponse.builder()
             .id(flight.getId())

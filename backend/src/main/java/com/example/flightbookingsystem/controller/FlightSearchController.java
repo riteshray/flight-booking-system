@@ -40,10 +40,10 @@ public class FlightSearchController {
         return ResponseEntity.ok(flights);
     }
     
-    @Operation(summary = "Get flight by ID", description = "Retrieve flight details by ID")
-    @GetMapping("/{flightId}")
-    public ResponseEntity<FlightResponse> getFlightById(@PathVariable Long flightId) {
-        FlightResponse flight = flightSearchService.getFlightById(flightId);
+    @Operation(summary = "Get flight by flight number", description = "Retrieve flight details by flight number")
+    @GetMapping("/{flightNumber}")
+    public ResponseEntity<FlightResponse> getFlightById(@PathVariable String flightNumber) {
+        FlightResponse flight = flightSearchService.getFlightByFlightNumber(flightNumber);
         return ResponseEntity.ok(flight);
     }
 }
