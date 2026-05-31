@@ -8,5 +8,5 @@ import java.util.List;
 public interface FlightSearchService {
     List<FlightResponse> searchFlights(FlightSearchRequest searchRequest);
     List<FlightResponse> getAllFlights();
-    FlightResponse getFlightById(Long flightId);
+    FlightResponse getFlightByFlightNumber(String flightNumber);
 }

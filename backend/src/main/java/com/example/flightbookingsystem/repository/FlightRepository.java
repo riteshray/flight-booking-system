@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface FlightRepository extends JpaRepository<Flight, Long> {
@@ -21,4 +22,6 @@ public interface FlightRepository extends JpaRepository<Flight, Long> {
                                 @Param("destinationCode") String destinationCode,
                                @Param("startOfDay") LocalDateTime startOfDay,
                                @Param("nextDay") LocalDateTime nextDay);
+
+    Optional<Flight> findByFlightNumber(String flightNumber);
 }
