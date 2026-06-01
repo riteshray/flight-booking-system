@@ -92,7 +92,6 @@ class BookingManagementServiceImplTest {
     void createBooking_WithValidRequest_CreatesBookingSuccessfully() {
         // Given
         BookingRequest request = BookingRequest.builder()
-                .userId(1L)
                 .flightId(1L)
                 .passengerFirstName("Jane")
                 .passengerLastName("Smith")
@@ -108,7 +107,7 @@ class BookingManagementServiceImplTest {
         when(bookingRepository.save(any(FlightBooking.class))).thenReturn(savedBooking);
 
         // When
-        BookingResponse response = bookingService.createBooking(request);
+        BookingResponse response = bookingService.createBooking(1L, request);
 
         // Then
         assertNotNull(response);
@@ -131,7 +130,6 @@ class BookingManagementServiceImplTest {
     void createBooking_WithNewPassenger_CreatesPassengerAndBooking() {
         // Given
         BookingRequest request = BookingRequest.builder()
-                .userId(1L)
                 .flightId(1L)
                 .passengerFirstName("New")
                 .passengerLastName("Passenger")
@@ -155,7 +153,7 @@ class BookingManagementServiceImplTest {
         when(bookingRepository.save(any(FlightBooking.class))).thenReturn(savedBooking);
 
         // When
-        BookingResponse response = bookingService.createBooking(request);
+        BookingResponse response = bookingService.createBooking(1L, request);
 
         // Then
         assertNotNull(response);
@@ -176,7 +174,6 @@ class BookingManagementServiceImplTest {
     void createBooking_WithNonExistentUser_ThrowsResourceNotFoundException() {
         // Given
         BookingRequest request = BookingRequest.builder()
-                .userId(999L)
                 .flightId(1L)
                 .passengerFirstName("Jane")
                 .passengerLastName("Smith")
@@ -186,7 +183,7 @@ class BookingManagementServiceImplTest {
         when(userRepository.findById(999L)).thenReturn(Optional.empty());
 
         // When & Then
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> bookingService.createBooking(request));
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> bookingService.createBooking(999L, request));
         assertTrue(exception.getMessage().contains("User not found with id: 999"));
         verify(userRepository).findById(999L);
         verify(flightRepository, never()).findById(anyLong());
@@ -197,7 +194,6 @@ class BookingManagementServiceImplTest {
     void createBooking_WithNonExistentFlight_ThrowsResourceNotFoundException() {
         // Given
         BookingRequest request = BookingRequest.builder()
-                .userId(1L)
                 .flightId(999L)
                 .passengerFirstName("Jane")
                 .passengerLastName("Smith")
@@ -208,7 +204,7 @@ class BookingManagementServiceImplTest {
         when(flightRepository.findById(999L)).thenReturn(Optional.empty());
 
         // When & Then
-        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> bookingService.createBooking(request));
+        ResourceNotFoundException exception = assertThrows(ResourceNotFoundException.class, () -> bookingService.createBooking(1L, request));
         assertTrue(exception.getMessage().contains("Flight not found with id: 999"));
         verify(userRepository).findById(1L);
         verify(flightRepository).findById(999L);
@@ -221,7 +217,6 @@ class BookingManagementServiceImplTest {
         testFlight.setAvailableSeats(0);
 
         BookingRequest request = BookingRequest.builder()
-                .userId(1L)
                 .flightId(1L)
                 .passengerFirstName("Jane")
                 .passengerLastName("Smith")
@@ -232,7 +227,7 @@ class BookingManagementServiceImplTest {
         when(flightRepository.findById(1L)).thenReturn(Optional.of(testFlight));
 
         // When & Then
-        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bookingService.createBooking(request));
+        IllegalStateException exception = assertThrows(IllegalStateException.class, () -> bookingService.createBooking(1L, request));
         assertEquals("No available seats on this flight", exception.getMessage());
         verify(bookingRepository, never()).save(any());
     }

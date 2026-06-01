@@ -38,8 +38,3 @@ VALUES (9, 'AA909', 3, 2, '2026-06-22 07:00:00', '2026-06-22 09:30:00', 249.99, 
 
 INSERT INTO flight (id, flight_number, origin_id, destination_id, departure_time, arrival_time, price, available_seats) 
 VALUES (10, 'UA110', 2, 3, '2026-06-22 15:00:00', '2026-06-22 19:00:00', 279.99, 160);
-
--- Insert Sample Users
-INSERT INTO users (id, name, email) VALUES (1, 'John Doe', 'john.doe@example.com');
-INSERT INTO users (id, name, email) VALUES (2, 'Jane Smith', 'jane.smith@example.com');
-INSERT INTO users (id, name, email) VALUES (3, 'Bob Johnson', 'bob.johnson@example.com');

@@ -37,9 +37,9 @@ public class BookingManagementServiceImpl implements BookingManagementService {
     }
 
     @Override
-    public BookingResponse createBooking(BookingRequest bookingRequest) {
-        User user = userRepository.findById(bookingRequest.getUserId())
-                .orElseThrow(() -> new ResourceNotFoundException(String.format("User not found with id: %s", bookingRequest.getUserId())));
+    public BookingResponse createBooking(Long userId, BookingRequest bookingRequest) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResourceNotFoundException(String.format("User not found with id: %s", userId)));
 
         Flight flight = flightRepository.findById(bookingRequest.getFlightId())
                 .orElseThrow(() -> new ResourceNotFoundException(String.format("Flight not found with id: %s", bookingRequest.getFlightId())));

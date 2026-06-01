@@ -126,7 +126,7 @@ class UserServiceImplTest {
     @Test
     void createUser_WithValidUser_CreatesAndReturnsUser() {
         // Given
-        User newUser = new User("New User", "new.user@example.com");
+        User newUser = new User("New User", "new.user@example.com", "password123");
         User savedUser = createUser(4L, "New User", "new.user@example.com");
 
         when(userRepository.existsByEmail("new.user@example.com")).thenReturn(false);
@@ -148,7 +148,7 @@ class UserServiceImplTest {
     @Test
     void createUser_WithDuplicateEmail_ThrowsIllegalArgumentException() {
         // Given
-        User newUser = new User("Duplicate User", "john.doe@example.com");
+        User newUser = new User("Duplicate User", "john.doe@example.com", "password123");
 
         when(userRepository.existsByEmail("john.doe@example.com")).thenReturn(true);
 
@@ -162,7 +162,7 @@ class UserServiceImplTest {
     @Test
     void createUser_VerifiesUserDataIsSavedCorrectly() {
         // Given
-        User newUser = new User("Test User", "test.user@example.com");
+        User newUser = new User("Test User", "test.user@example.com", "password123");
         User savedUser = createUser(5L, "Test User", "test.user@example.com");
 
         when(userRepository.existsByEmail("test.user@example.com")).thenReturn(false);
@@ -183,7 +183,7 @@ class UserServiceImplTest {
     @Test
     void createUser_WithExistingEmail_NeverCallsSave() {
         // Given
-        User newUser = new User("Another User", "jane.smith@example.com");
+        User newUser = new User("Another User", "jane.smith@example.com", "password123");
 
         when(userRepository.existsByEmail("jane.smith@example.com")).thenReturn(true);
 
@@ -196,8 +196,8 @@ class UserServiceImplTest {
     @Test
     void createUser_WithDifferentEmails_CreatesMultipleUsers() {
         // Given
-        User user1 = new User("User One", "user1@example.com");
-        User user2 = new User("User Two", "user2@example.com");
+        User user1 = new User("User One", "user1@example.com", "password123");
+        User user2 = new User("User Two", "user2@example.com", "password123");
         
         User savedUser1 = createUser(10L, "User One", "user1@example.com");
         User savedUser2 = createUser(11L, "User Two", "user2@example.com");
@@ -222,7 +222,7 @@ class UserServiceImplTest {
     }
 
     private User createUser(Long id, String name, String email) {
-        User user = new User(name, email);
+        User user = new User(name, email, "password123");
         user.setId(id);
         return user;
     }
