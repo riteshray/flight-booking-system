@@ -101,7 +101,7 @@ class UserControllerTest {
     @Test
     void createUser_WithValidUser_ReturnsCreatedUser() throws Exception {
         // Given
-        User inputUser = new User("John Doe", "john.doe@example.com");
+        User inputUser = new User("John Doe", "john.doe@example.com", "password123");
         User savedUser = createUser(1L, "John Doe", "john.doe@example.com");
         
         when(userService.createUser(inputUser)).thenReturn(savedUser);
@@ -119,7 +119,7 @@ class UserControllerTest {
     @Test
     void createUser_WithDuplicateEmail_ReturnsInternalServerError() throws Exception {
         // Given
-        User user = new User("John Doe", "john.doe@example.com");
+        User user = new User("John Doe", "john.doe@example.com", "password123");
         
         when(userService.createUser(user)).thenThrow(new IllegalArgumentException("User with email john.doe@example.com already exists"));
 
@@ -133,7 +133,7 @@ class UserControllerTest {
     @Test
     void createUser_WithMissingName_ReturnsBadRequest() throws Exception {
         // Given
-        User user = new User(null, "john.doe@example.com");
+        User user = new User(null, "john.doe@example.com", "password123");
 
         // When & Then
         mockMvc.perform(post("/api/users")
@@ -145,7 +145,7 @@ class UserControllerTest {
     @Test
     void createUser_WithMissingEmail_ReturnsBadRequest() throws Exception {
         // Given
-        User user = new User("John Doe", null);
+        User user = new User("John Doe", null, "password123");
 
         // When & Then
         mockMvc.perform(post("/api/users")
@@ -157,7 +157,7 @@ class UserControllerTest {
     @Test
     void createUser_WithInvalidEmailFormat_ReturnsBadRequest() throws Exception {
         // Given
-        User user = new User("John Doe", "invalid-email");
+        User user = new User("John Doe", "invalid-email", "password123");
 
         // When & Then
         mockMvc.perform(post("/api/users")
@@ -176,7 +176,7 @@ class UserControllerTest {
     }
 
     private User createUser(Long id, String name, String email) {
-        User user = new User(name, email);
+        User user = new User(name, email, "password123");
         user.setId(id);
         return user;
     }

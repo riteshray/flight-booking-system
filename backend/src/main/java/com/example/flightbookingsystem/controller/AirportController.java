@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/airports")
+@RequestMapping("/api/v1/airports")
 @CrossOrigin(origins = "http://localhost:3000")
 @Tag(name = "Airport Management", description = "APIs for managing airports")
 public class AirportController {

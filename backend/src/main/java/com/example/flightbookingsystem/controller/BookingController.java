@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,8 +27,9 @@ public class BookingController {
     
     @Operation(summary = "Create a new booking", description = "Book a flight for a passenger")
     @PostMapping
-    public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody BookingRequest bookingRequest) {
-        BookingResponse booking = bookingService.createBooking(bookingRequest);
+    public ResponseEntity<BookingResponse> createBooking(@Valid @RequestBody BookingRequest bookingRequest, Authentication authentication) {
+        Long userId = (Long) authentication.getPrincipal();
+        BookingResponse booking = bookingService.createBooking(userId, bookingRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(booking);
     }
     
@@ -38,9 +40,10 @@ public class BookingController {
         return ResponseEntity.ok(booking);
     }
     
-    @Operation(summary = "Get user bookings", description = "Retrieve all bookings for a specific user")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<List<BookingResponse>> getUserBookings(@PathVariable Long userId) {
+    @Operation(summary = "Get user bookings", description = "Retrieve all bookings for the authenticated user")
+    @GetMapping("/my-bookings")
+    public ResponseEntity<List<BookingResponse>> getMyBookings(Authentication authentication) {
+        Long userId = (Long) authentication.getPrincipal();
         List<BookingResponse> bookings = bookingService.getUserBookings(userId);
         return ResponseEntity.ok(bookings);
     }
