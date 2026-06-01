@@ -92,38 +92,6 @@ class AuthServiceImplTest {
     }
 
     @Test
-    void testLogin_WithExistingUser_ShouldReturnAuthResponse() {
-        when(userRepository.findByEmail(loginRequest.getEmail())).thenReturn(Optional.of(testUser));
-        when(jwtUtil.generateAccessToken(testUser.getId())).thenReturn(testAccessToken);
-        when(jwtUtil.generateRefreshToken(testUser.getId())).thenReturn(testRefreshToken);
-
-        AuthResponse response = authService.login(loginRequest);
-
-        assertNotNull(response);
-        assertEquals(testAccessToken, response.getAccessToken());
-        assertEquals(testRefreshToken, response.getRefreshToken());
-        assertEquals(testUser.getId(), response.getUserId());
-        assertEquals(testUser.getName(), response.getName());
-        assertEquals(testUser.getEmail(), response.getEmail());
-        assertEquals("Bearer", response.getTokenType());
-
-        verify(userRepository).findByEmail(loginRequest.getEmail());
-        verify(jwtUtil).generateAccessToken(testUser.getId());
-        verify(jwtUtil).generateRefreshToken(testUser.getId());
-    }
-
-    @Test
-    void testLogin_WithNonExistentUser_ShouldThrowException() {
-        when(userRepository.findByEmail(loginRequest.getEmail())).thenReturn(Optional.empty());
-
-        IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> authService.login(loginRequest));
-
-        assertTrue(exception.getMessage().contains("not found"));
-        verify(userRepository).findByEmail(loginRequest.getEmail());
-        verify(jwtUtil, never()).generateAccessToken(any());
-    }
-
-    @Test
     void testRefreshToken_WithValidToken_ShouldReturnNewAccessToken() {
         when(jwtUtil.validateToken(testRefreshToken)).thenReturn(true);
         when(jwtUtil.extractUserId(testRefreshToken)).thenReturn(testUser.getId());

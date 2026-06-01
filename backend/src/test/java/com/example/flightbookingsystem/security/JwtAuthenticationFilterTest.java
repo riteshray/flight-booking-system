@@ -47,7 +47,6 @@ class JwtAuthenticationFilterTest {
     @Test
     void testDoFilterInternal_WithValidToken_ShouldSetAuthentication() throws ServletException, IOException {
         when(request.getHeader("Authorization")).thenReturn("Bearer " + validToken);
-        when(request.getRequestURI()).thenReturn("/api/v1/flights");
         when(jwtUtil.validateToken(validToken)).thenReturn(true);
         when(jwtUtil.extractUserId(validToken)).thenReturn(userId);
 
@@ -64,7 +63,6 @@ class JwtAuthenticationFilterTest {
     @Test
     void testDoFilterInternal_WithInvalidToken_ShouldNotSetAuthentication() throws ServletException, IOException {
         when(request.getHeader("Authorization")).thenReturn("Bearer invalid.token");
-        when(request.getRequestURI()).thenReturn("/api/v1/flights");
         when(jwtUtil.validateToken("invalid.token")).thenReturn(false);
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
@@ -79,7 +77,6 @@ class JwtAuthenticationFilterTest {
     @Test
     void testDoFilterInternal_WithNoToken_ShouldNotSetAuthentication() throws ServletException, IOException {
         when(request.getHeader("Authorization")).thenReturn(null);
-        when(request.getRequestURI()).thenReturn("/api/v1/flights");
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
 
@@ -93,7 +90,6 @@ class JwtAuthenticationFilterTest {
     @Test
     void testDoFilterInternal_WithMalformedAuthorizationHeader_ShouldNotSetAuthentication() throws ServletException, IOException {
         when(request.getHeader("Authorization")).thenReturn("InvalidHeader");
-        when(request.getRequestURI()).thenReturn("/api/v1/flights");
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
 
@@ -134,7 +130,6 @@ class JwtAuthenticationFilterTest {
     @Test
     void testDoFilterInternal_WithTokenException_ShouldContinueFilterChain() throws ServletException, IOException {
         when(request.getHeader("Authorization")).thenReturn("Bearer " + validToken);
-        when(request.getRequestURI()).thenReturn("/api/v1/flights");
         when(jwtUtil.validateToken(validToken)).thenThrow(new RuntimeException("Token parsing error"));
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
@@ -148,7 +143,6 @@ class JwtAuthenticationFilterTest {
     @Test
     void testDoFilterInternal_WithEmptyBearerToken_ShouldNotSetAuthentication() throws ServletException, IOException {
         when(request.getHeader("Authorization")).thenReturn("Bearer ");
-        when(request.getRequestURI()).thenReturn("/api/v1/flights");
 
         jwtAuthenticationFilter.doFilterInternal(request, response, filterChain);
 
