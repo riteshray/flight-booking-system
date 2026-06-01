@@ -22,22 +22,6 @@ mvn clean package
 java -jar target/flight-booking-system-1.0.0.jar
 ```
 
-**Application URL**: http://localhost:8080
-
-### Access Points
-- **Swagger UI**: http://localhost:8080/swagger-ui.html
-- **H2 Console**: http://localhost:8080/h2-console (JDBC: `jdbc:h2:mem:testdb`, User: `sa`, Password: empty)
-
-## Testing
-
-```bash
-# Run all tests
-mvn test
-
-# Skip tests during build
-mvn clean package -DskipTests
-```
-
 ## Configuration
 
 Edit `backend/src/main/resources/application.properties`:
@@ -54,6 +38,41 @@ jwt.refresh.expiration=2592000000  # 30 days
 # Database
 spring.datasource.url=jdbc:h2:mem:testdb
 spring.jpa.hibernate.ddl-auto=create
+```
+
+**Application URL**: http://localhost:8080
+
+### Access Points
+- **Swagger UI**: http://localhost:8080/swagger-ui.html
+- **H2 Console**: http://localhost:8080/h2-console (JDBC: `jdbc:h2:mem:testdb`, User: `sa`, Password: empty)
+
+## API Testing with Postman
+
+### Import Collection
+
+1. Open Postman
+2. Click **Import** → Select `Flight-Booking-System.postman_collection.json`
+3. Collection includes all endpoints with automatic token management
+
+### Quick Start Flow
+
+```bash
+# 1. Register or Login (automatically saves tokens)
+POST /api/v1/auth/register or /api/v1/auth/login
+
+# 2. Test protected endpoints (token auto-applied)
+GET /api/v1/airports
+POST /api/v1/flights/search
+```
+
+## Testing
+
+```bash
+# Run all tests
+mvn test
+
+# Skip tests during build
+mvn clean package -DskipTests
 ```
 
 ## Authentication
