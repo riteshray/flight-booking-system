@@ -11,9 +11,6 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-/**
- * REST Controller for flight search operations
- */
 @RestController
 @RequestMapping("/api/v1/flights")
 @CrossOrigin(origins = "http://localhost:3000")

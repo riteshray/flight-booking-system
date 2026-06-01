@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/users")
+@RequestMapping("/api/v1/users")
 @CrossOrigin(origins = "http://localhost:3000")
 @Tag(name = "User Management", description = "APIs for managing users")
 public class UserController {
