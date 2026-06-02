@@ -182,7 +182,7 @@ class BookingControllerTest {
     void getBookingByReference_WithNonExistentReference_ReturnsNotFound() throws Exception {
         // Given
         String invalidReference = "BK9999999999";
-        when(bookingService.getBookingByReference(invalidReference)).thenThrow(new ResourceNotFoundException("Booking not found with reference: " + invalidReference));
+        when(bookingService.getBookingByReference(invalidReference)).thenThrow(new ResourceNotFoundException(String.format("Booking not found with reference: %s", invalidReference)));
 
         // When & Then
         mockMvc.perform(get("/api/v1/bookings/reference/{bookingReference}", invalidReference)
@@ -252,7 +252,7 @@ class BookingControllerTest {
     void cancelBooking_WithNonExistentBooking_ReturnsNotFound() throws Exception {
         // Given
         String invalidBookingReference = "BK1";
-        when(bookingService.cancelBooking(invalidBookingReference)).thenThrow(new ResourceNotFoundException("Booking not found with reference: " + invalidBookingReference));
+        when(bookingService.cancelBooking(invalidBookingReference)).thenThrow(new ResourceNotFoundException(String.format("Booking not found with reference: %s", invalidBookingReference)));
 
         // When & Then
         mockMvc.perform(put("/api/v1/bookings/{bookingReference}/cancel", invalidBookingReference)
