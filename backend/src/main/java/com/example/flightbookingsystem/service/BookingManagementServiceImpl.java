@@ -48,6 +48,7 @@ public class BookingManagementServiceImpl implements BookingManagementService {
             throw new IllegalStateException("No available seats on this flight");
         }
 
+        flight.setAvailableSeats(Math.subtractExact(flight.getAvailableSeats(), 1));
         Passenger passenger = passengerRepository.findByEmail(bookingRequest.getPassengerEmail())
                 .orElseGet(() -> {
                     Passenger newPassenger = new Passenger();

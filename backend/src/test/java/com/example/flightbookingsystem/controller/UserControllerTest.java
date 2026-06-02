@@ -42,7 +42,7 @@ class UserControllerTest {
         when(userService.getAllUsers()).thenReturn(users);
 
         // When & Then
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/v1/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].id").value(1))
@@ -60,7 +60,7 @@ class UserControllerTest {
         when(userService.getAllUsers()).thenReturn(List.of());
 
         // When & Then
-        mockMvc.perform(get("/api/users"))
+        mockMvc.perform(get("/api/v1/users"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }
@@ -73,7 +73,7 @@ class UserControllerTest {
         when(userService.getUserById(userId)).thenReturn(user);
 
         // When & Then
-        mockMvc.perform(get("/api/users/{userId}", userId))
+        mockMvc.perform(get("/api/v1/users/{userId}", userId))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.name").value("John Doe"))
@@ -87,14 +87,14 @@ class UserControllerTest {
         when(userService.getUserById(invalidUserId)).thenThrow(new ResourceNotFoundException(String.format("User not found with id: %s", invalidUserId)));
 
         // When & Then
-        mockMvc.perform(get("/api/users/{userId}", invalidUserId))
+        mockMvc.perform(get("/api/v1/users/{userId}", invalidUserId))
                 .andExpect(status().isNotFound());
     }
 
     @Test
     void getUserById_WithInvalidId_ReturnsBadRequest() throws Exception {
         // When & Then
-        mockMvc.perform(get("/api/users/{userId}", "invalid"))
+        mockMvc.perform(get("/api/v1/users/{userId}", "invalid"))
                 .andExpect(status().isBadRequest());
     }
 
@@ -107,7 +107,7 @@ class UserControllerTest {
         when(userService.createUser(inputUser)).thenReturn(savedUser);
 
         // When & Then
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(inputUser)))
                 .andExpect(status().isCreated())
@@ -124,7 +124,7 @@ class UserControllerTest {
         when(userService.createUser(user)).thenThrow(new IllegalArgumentException("User with email john.doe@example.com already exists"));
 
         // When & Then
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isInternalServerError());
@@ -136,7 +136,7 @@ class UserControllerTest {
         User user = new User(null, "john.doe@example.com", "password123");
 
         // When & Then
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isBadRequest());
@@ -148,7 +148,7 @@ class UserControllerTest {
         User user = new User("John Doe", null, "password123");
 
         // When & Then
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isBadRequest());
@@ -160,7 +160,7 @@ class UserControllerTest {
         User user = new User("John Doe", "invalid-email", "password123");
 
         // When & Then
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(user)))
                 .andExpect(status().isBadRequest());
@@ -169,7 +169,7 @@ class UserControllerTest {
     @Test
     void createUser_WithEmptyRequestBody_ReturnsBadRequest() throws Exception {
         // When & Then
-        mockMvc.perform(post("/api/users")
+        mockMvc.perform(post("/api/v1/users")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content("{}"))
                 .andExpect(status().isBadRequest());

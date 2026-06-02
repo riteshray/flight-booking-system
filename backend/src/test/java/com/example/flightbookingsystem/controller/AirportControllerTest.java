@@ -37,7 +37,7 @@ class AirportControllerTest {
         when(airportService.getAllAirports()).thenReturn(airports);
 
         // When & Then
-        mockMvc.perform(get("/api/airports"))
+        mockMvc.perform(get("/api/v1/airports"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(3)))
                 .andExpect(jsonPath("$[0].code").value("JFK"))
@@ -53,7 +53,7 @@ class AirportControllerTest {
         when(airportService.getAllAirports()).thenReturn(List.of());
 
         // When & Then
-        mockMvc.perform(get("/api/airports"))
+        mockMvc.perform(get("/api/v1/airports"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$", hasSize(0)));
     }

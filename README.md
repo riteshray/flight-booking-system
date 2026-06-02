@@ -31,7 +31,7 @@ Edit `backend/src/main/resources/application.properties`:
 server.port=8080
 
 # JWT
-jwt.secret=256-bit-secret-key
+jwt.secret=secure-256-bit-secret-key-here-make-it-at-least-32-chars-long-for-production
 jwt.access.expiration=604800000   # 7 days
 jwt.refresh.expiration=2592000000  # 30 days
 
